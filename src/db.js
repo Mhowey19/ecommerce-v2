@@ -1,29 +1,28 @@
 import { Pool } from 'pg';
 
-// Using a connection string from an environment variable
+// Create connection pool using Render's connection string
 const pool = new Pool({
-	connectionString: process.env.DATABASE_URL, // Set DATABASE_URL in Render env vars
+	connectionString: process.env.DATABASE_URL,
 });
 
-// Or using individual credentials
-// const pool = new Pool({
-//     user: process.env.DB_USER,
-//     host: process.env.DB_HOST,
-//     database: process.env.DB_NAME,
-//     password: process.env.DB_PASSWORD,
-//     port: process.env.DB_PORT,
-// });
-
-async function testConnection() {
+async function dbConnection() {
+	let client;
 	try {
-		const client = await pool.connect();
-		console.log('Successfully connected to the database!');
-		const data = await client.query('SELECT datname FROM pg_database WHERE datistemplate = false');
-		console.log(data);
-		client.release();
+		client = await pool.connect();
+		console.log('Connected to Render DB');
+		// const data = await client.query('SELECT * FROM products');
+		// console.log(data);
+
+		const query = ` SELECT * FROM products
+		`;
+
+		const result = await client.query(query);
+		console.log('Sample inserted product:', result.rows);
 	} catch (err) {
-		console.error('Database connection error:', err);
+		console.error('Error: ', err);
+	} finally {
+		if (client) client.release(); // release the client back to the pool
 	}
 }
 
-testConnection();
+dbConnection();
