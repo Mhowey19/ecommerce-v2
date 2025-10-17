@@ -9,7 +9,7 @@ export default function ProductCard() {
 		async function fetchProducts() {
 			try {
 				//fetch db data and convert into json data
-				const res = await fetch('http://localhost:5000/products/api'); // or deployed URL
+				const res = await fetch('/products/api'); // or deployed URL
 				const data = await res.json();
 
 				const initialIndex = {};

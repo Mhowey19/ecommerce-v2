@@ -11,7 +11,7 @@ export default function ProductSlider() {
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
-				const res = await fetch('http://localhost:5000/products/api');
+				const res = await fetch('/products/api');
 				const data = await res.json();
 				console.log('Fetched products:', data);
 				setProducts(data);
