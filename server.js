@@ -12,6 +12,7 @@ const __dirname = path.dirname(__filename);
 
 // Enable CORS for all routes
 app.use(cors());
+
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
@@ -22,11 +23,7 @@ const pool = new Pool({
 // Serve React's built files
 app.use(express.static(path.join(__dirname, 'client/dist')));
 
-// ✅ Catch-all route for React Router
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
-});
-
+// ✅ API route for products
 app.get('/products/api', async (req, res) => {
 	try {
 		const client = await pool.connect();
@@ -47,6 +44,11 @@ app.get('/products/api', async (req, res) => {
 		console.error(err);
 		res.status(500).send('Server error');
 	}
+});
+
+// ✅ Catch-all route for React Router
+app.get('(.*)', (req, res) => {
+	res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 // Start the server
