@@ -1,38 +1,54 @@
-import logo from '../images/codejsonss.png';
-import Button from './Button';
 import { useEffect, useState } from 'react';
+import Button from './Button';
 
 export default function ProductCard() {
 	const [products, setProducts] = useState([]);
-	const [error, setError] = useState(null);
+	const [currentImageIndex, setCurrentImageIndex] = useState({});
 
 	useEffect(() => {
-		async function fetchProductData() {
+		async function fetchProducts() {
 			try {
-				const res = await fetch('http://localhost:5000/products/api');
-				if (!res.ok) throw new Error('Network response was not ok');
+				//fetch db data and convert into json data
+				const res = await fetch('http://localhost:5000/products/api'); // or deployed URL
 				const data = await res.json();
-				setProducts(data.productCardData); // <-- access array here
+
+				const initialIndex = {};
+				data.forEach((product) => {
+					initialIndex[product.id] = 0;
+				});
+
+				setProducts(data); //sets current state to the db data
+				setCurrentImageIndex(initialIndex); //Used to change the image when button is selected
 			} catch (err) {
-				console.error(err);
-				setError(err.message);
+				console.error(`Error, ${err}`);
 			}
 		}
-		fetchProductData();
+		fetchProducts(); // runs the fetchProducts async funtion to fetch the db data
 	}, []);
 
-	if (error) return <p>Error: {error}</p>;
-	if (!products.length) return <p>Loading products...</p>;
+	const handleNextImage = (productId) => {
+		setCurrentImageIndex((prev) => {
+			const current = prev[productId]; //Used to be able to go back to the previous image
+			const product = products.find((p) => p.id === productId); //Finds the product with the matching ID
+			const next = (current + 1) % (product.images?.length || 1); //Finds the next product image with the same id type
+			return { ...prev, [productId]: next };
+		});
+	};
+
+	if (!products.length) return <p>Loading products...</p>; //handle if there is no data
 
 	return (
 		<div className="product-list">
 			{products.map((product) => (
 				<div key={product.id} className="product-card">
-					<img src={product.img_path || logo} alt={product.name} width="200" />
+					<img src={product.images?.[currentImageIndex[product.id]] || 'fallback.png'} alt={product.name} width="200" />
 					<h3>{product.name}</h3>
 					<p>${parseFloat(product.price).toFixed(2)}</p>
 					<p>{product.description}</p>
 					<Button />
+					<button text="Change Color" onClick={() => handleNextImage(product.id)}>
+						Change Button
+					</button>
 				</div>
 			))}
 		</div>

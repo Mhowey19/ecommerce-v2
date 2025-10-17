@@ -16,20 +16,24 @@ const pool = new Pool({
 });
 
 app.get('/products/api', async (req, res) => {
-	let client;
 	try {
-		//connect to db
-		client = await pool.connect();
-		console.log('working db');
-		//query for product card information
-
-		const results = await client.query('SELECT * FROM products');
-		const productCardData = results.rows;
-		res.send({ productCardData }); //Sends data to the react front end
+		const client = await pool.connect();
+		const result = await client.query(`
+      SELECT 
+        p.id, 
+        p.name, 
+        p.price, 
+        p.description, 
+        json_agg(pi.img_path) AS images
+      FROM products p
+      LEFT JOIN product_images pi ON p.id = pi.product_id
+      GROUP BY p.id;
+    `);
+		res.json(result.rows);
 		client.release();
 	} catch (err) {
-		console.log(`Error ${err}`);
-		res.status(500).json({ error: 'Database connection failed' });
+		console.error(err);
+		res.status(500).send('Server error');
 	}
 });
 
