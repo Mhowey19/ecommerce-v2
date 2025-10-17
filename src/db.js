@@ -13,9 +13,8 @@ async function dbConnection() {
 		// const data = await client.query('SELECT * FROM products');
 		// console.log(data);
 
-		const query = ` SELECT * FROM products
+		const query = ` SELECT * FROM product_images
 		`;
-
 		const result = await client.query(query);
 		console.log('Sample inserted product:', result.rows);
 	} catch (err) {

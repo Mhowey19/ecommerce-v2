@@ -1,9 +1,13 @@
-import { Pool } from 'pg';
 import express from 'express';
+import cors from 'cors';
+import { Pool } from 'pg';
 import dotenv from 'dotenv';
-const app = express();
-dotenv.config();
 
+dotenv.config();
+const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
