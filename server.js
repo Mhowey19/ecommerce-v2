@@ -4,6 +4,11 @@ import { Pool } from 'pg';
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Enable CORS for all routes
 app.use(cors());
@@ -12,6 +17,14 @@ const pool = new Pool({
 	ssl: {
 		rejectUnauthorized: false, // required for Render hosting
 	},
+});
+
+// Serve React's built files
+app.use(express.static(path.join(__dirname, 'client/dist')));
+
+// ✅ Catch-all route for React Router
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
 });
 
 app.get('/products/api', async (req, res) => {
