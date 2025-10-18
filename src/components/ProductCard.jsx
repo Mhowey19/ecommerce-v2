@@ -3,12 +3,10 @@ import Button from './Button';
 
 export default function ProductCard() {
 	const [products, setProducts] = useState([]);
-	const API_URL = import.meta.env.VITE_API_URL;
-
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
-				const res = await fetch(`${API_URL}/products/api`);
+				const res = await fetch(`${import.meta.env.VITE_API_URL}/products/api`);
 				const data = await res.json();
 				setProducts(data);
 			} catch (err) {
@@ -16,7 +14,7 @@ export default function ProductCard() {
 			}
 		}
 		fetchProducts();
-	}, [API_URL]);
+	}, []);
 
 	if (!products.length) return <p>Loading products...</p>;
 

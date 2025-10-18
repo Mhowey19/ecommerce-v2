@@ -7,12 +7,10 @@ export default function ProductSlider() {
 	const [currentImageIndex, setCurrentImageIndex] = useState({});
 	const [currentSlide, setCurrentSlide] = useState(0);
 
-	const API_URL = import.meta.env.VITE_API_URL; // ✅ works for dev & prod
-
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
-				const res = await fetch(`${API_URL}/products/api`);
+				const res = await fetch(`${import.meta.env.VITE_API_URL}/products/api`);
 				const data = await res.json();
 				setProducts(data);
 			} catch (err) {
@@ -20,7 +18,7 @@ export default function ProductSlider() {
 			}
 		}
 		fetchProducts();
-	}, [API_URL]);
+	}, []); // ✅ Only run once on mount
 
 	const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % products.length);
 	const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + products.length) % products.length);
