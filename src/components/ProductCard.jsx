@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import Button from './Button';
+import '../styles/ProductCard.css';
 
 export default function ProductCard() {
 	const [products, setProducts] = useState([]);
+
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
@@ -22,16 +24,24 @@ export default function ProductCard() {
 		<div className="product-list">
 			{products.map((product) => (
 				<div key={product.id} className="product-card">
-					<img
-						src={product.images?.[0] ? `/image/product/${product.images[0].split('/').pop()}` : '/image/fallback.jpg'}
-						alt={product.name}
-						width="200"
-						onError={(e) => (e.target.src = '/image/fallback.jpg')}
-					/>
-					<h3>{product.name}</h3>
-					<p>${parseFloat(product.price).toFixed(2)}</p>
-					<p>{product.description}</p>
-					<Button />
+					<div className="product-card-image">
+						<img
+							src={
+								product.images?.[0]
+									? `${import.meta.env.VITE_API_URL}/image/product/${product.images[0].split('/').pop()}`
+									: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
+							}
+							alt={product.name}
+							onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
+						/>
+					</div>
+
+					<div className="product-card-info">
+						<h3>{product.name}</h3>
+						<p className="price">${parseFloat(product.price).toFixed(2)}</p>
+						<p className="description">{product.description}</p>
+						<Button />
+					</div>
 				</div>
 			))}
 		</div>

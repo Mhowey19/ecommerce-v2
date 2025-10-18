@@ -23,6 +23,7 @@ const pool = new Pool({
 // Helper for dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
 // ✅ Serve static files from the React build
 app.use(express.static(path.join(__dirname, 'dist')));

@@ -7,6 +7,7 @@ export default function ProductSlider() {
 	const [currentImageIndex, setCurrentImageIndex] = useState({});
 	const [currentSlide, setCurrentSlide] = useState(0);
 
+	// Fetch products from backend
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
@@ -18,11 +19,13 @@ export default function ProductSlider() {
 			}
 		}
 		fetchProducts();
-	}, []); // ✅ Only run once on mount
+	}, []); // run only once on mount
 
+	// Slider navigation
 	const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % products.length);
 	const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + products.length) % products.length);
 
+	// Image cycling per product
 	const handleNextImage = (productId) => {
 		setCurrentImageIndex((prev) => {
 			const current = prev[productId] || 0;
@@ -39,22 +42,26 @@ export default function ProductSlider() {
 			<button className="slider-btn prev" onClick={prevSlide}>
 				Prev
 			</button>
+
 			<div className="slider-wrapper" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
 				{products.map((product) => {
 					const currentIdx = currentImageIndex[product.id] || 0;
 					const imagePath = product.images?.[currentIdx]
-						? `/image/product/${product.images[currentIdx].split('/').pop()}`
-						: '/image/fallback.jpg';
+						? `${import.meta.env.VITE_API_URL}/image/product/${product.images[currentIdx].split('/').pop()}`
+						: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`;
 
 					return (
 						<div className="slide" key={product.id}>
 							<div className="slide-content">
+								{/* Left: Product Image */}
 								<img
 									src={imagePath}
 									alt={product.name}
 									width="300"
-									onError={(e) => (e.target.src = '/image/fallback.jpg')}
+									onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
 								/>
+
+								{/* Right: Product Info */}
 								<div className="slide-info">
 									<h3>{product.name}</h3>
 									<p>${parseFloat(product.price).toFixed(2)}</p>
@@ -67,6 +74,7 @@ export default function ProductSlider() {
 					);
 				})}
 			</div>
+
 			<button className="slider-btn next" onClick={nextSlide}>
 				Next
 			</button>
