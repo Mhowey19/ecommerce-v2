@@ -2,17 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
-dotenv.config();
-const app = express();
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
+const app = express();
 
-// Enable CORS for all routes
+// Middleware
 app.use(cors());
+app.use(express.json());
 
+// Postgres connection
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
 	ssl: {
@@ -20,14 +20,17 @@ const pool = new Pool({
 	},
 });
 
-// Serve React's built files
-app.use(express.static(path.join(__dirname, 'client/dist')));
+// Helper for dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// ✅ API route for products
+// ✅ Serve static files from the React build
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// ✅ API route for fetching products
 app.get('/products/api', async (req, res) => {
 	try {
-		const client = await pool.connect();
-		const result = await client.query(`
+		const result = await pool.query(`
       SELECT 
         p.id, 
         p.name, 
@@ -39,18 +42,17 @@ app.get('/products/api', async (req, res) => {
       GROUP BY p.id;
     `);
 		res.json(result.rows);
-		client.release();
 	} catch (err) {
-		console.error(err);
+		console.error('❌ Database error:', err);
 		res.status(500).send('Server error');
 	}
 });
 
-// ✅ Catch-all route for React Router
-app.get('(.*)', (req, res) => {
-	res.sendFile(path.join(__dirname, 'client/dist', 'index.html'));
+// ✅ Catch-all route — handles React Router routes
+app.use((req, res) => {
+	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-// Start the server
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => console.log(`✅ Server running on port ${PORT}`));
