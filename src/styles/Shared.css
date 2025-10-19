@@ -78,9 +78,11 @@ a:hover {
 	padding: 1.5rem 1rem;
 	width: 100%;
 	position: static;
+	bottom: 0px;
 	text-align: center;
 	border-top: 1px solid #ddd;
 	margin-top: 4rem;
+	height: 7rem;
 }
 
 .footer-list {
@@ -106,6 +108,8 @@ a:hover {
 	height: 24px;
 	cursor: pointer;
 	transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+	box-shadow: none;
+	border-radius: 0;
 }
 
 .footer-icons img:hover {
@@ -144,6 +148,46 @@ a:hover {
 	.main-footer {
 		padding-bottom: 3rem;
 	}
+}
+
+.main-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: beige;
+	color: #000000;
+	padding: 1rem;
+	width: 100%;
+	position: static;
+}
+.footer-list {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	text-align: center;
+}
+
+.footer-link {
+	font-size: 0.9rem;
+	margin-bottom: 0.5rem;
+}
+
+.footer-icons {
+	display: flex;
+	gap: 1rem;
+}
+
+.footer-icons img {
+	width: 24px;
+	height: 24px;
+	cursor: pointer;
+	transition: transform 0.2s ease-in-out;
+}
+
+.footer-icons img:hover {
+	transform: scale(1.2);
+	opacity: 0.8;
 }
 
 /* ---------- DESKTOP ---------- */

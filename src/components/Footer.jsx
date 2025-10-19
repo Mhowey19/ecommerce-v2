@@ -2,7 +2,17 @@
 export default function Footer() {
 	return (
 		<>
-			(<footer className="p-4 bg-gray-100 text-center text-sm">©{new Date().getFullYear()} My E-Commerce</footer>;)
+			<footer class="main-footer">
+				<div class="footer-list">
+					<p class="footer-link">©2025 Tiny Joy | Privacy Policy | Donate | Instagram</p>
+					<div class="footer-icons">
+						<img src="/image/facebook.svg" alt="Facebook" />
+						<img src="/image/instagram.svg" alt="Instagram" />
+						<img src="/image/tiktok.svg" alt="TikTok" />
+						<img src="/image/youtube.svg" alt="YouTube" />
+					</div>
+				</div>
+			</footer>
 		</>
 	);
 }

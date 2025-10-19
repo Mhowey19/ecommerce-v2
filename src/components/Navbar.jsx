@@ -13,7 +13,7 @@ export default function Header() {
 				<h1 className="nav-text">Tiny Joy</h1>
 			</div>
 
-			<img src="/icons/menu.svg" alt="Menu" className="menu-icon" onClick={() => setMenuOpen(!menuOpen)} />
+			<img src="../public/image/menu.png" alt="Menu" className="menu-icon" onClick={() => setMenuOpen(!menuOpen)} />
 
 			<nav className={`nav-list ${menuOpen ? 'show' : ''}`}>
 				<Link to="/" className="nav-link">

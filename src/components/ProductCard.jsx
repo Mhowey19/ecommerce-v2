@@ -20,11 +20,13 @@ export default function ProductCard() {
 
 	if (!products.length) return <p>Loading products...</p>;
 
+	let topProducts = products.slice(0, 12);
+
 	return (
-		<div className="product-list">
-			{products.map((product) => (
-				<div key={product.id} className="product-card">
-					<div className="product-card-image">
+		<body className="product-body">
+			<div className="product-grid">
+				{topProducts.map((product) => (
+					<div key={product.id} className="product-card">
 						<img
 							src={
 								product.images?.[0]
@@ -32,18 +34,18 @@ export default function ProductCard() {
 									: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
 							}
 							alt={product.name}
+							className="product-image"
 							onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
 						/>
+						<div className="product-info">
+							<h3>{product.name}</h3>
+							<p className="price">${parseFloat(product.price).toFixed(2)}</p>
+							<p>{product.description}</p>
+							<Button />
+						</div>
 					</div>
-
-					<div className="product-card-info">
-						<h3>{product.name}</h3>
-						<p className="price">${parseFloat(product.price).toFixed(2)}</p>
-						<p className="description">{product.description}</p>
-						<Button />
-					</div>
-				</div>
-			))}
-		</div>
+				))}
+			</div>
+		</body>
 	);
 }
