@@ -23,28 +23,43 @@ const pool = new Pool({
 // Helper for dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use('/image', express.static(path.join(__dirname, 'public/image')));
+// app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
 // ✅ Serve static files from the React build
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// ✅ API route for fetching products
+// ✅ API route for products (with optional category filter)
 app.get('/products/api', async (req, res) => {
 	try {
-		const result = await pool.query(`
-      SELECT 
-        p.id, 
-        p.name, 
-        p.price, 
-        p.description, 
-        json_agg(pi.img_path) AS images
-      FROM products p
-      LEFT JOIN product_images pi ON p.id = pi.product_id
-      GROUP BY p.id;
-    `);
+		const client = await pool.connect();
+		const { category } = req.query;
+
+		console.log('🔎 Category received from frontend:', category); // <-- add this
+
+		let query = `
+			SELECT 
+				p.id, 
+				p.name, 
+				p.price, 
+				p.description, 
+				p.category,
+				json_agg(pi.img_path) AS images
+			FROM products p
+			LEFT JOIN product_images pi ON p.id = pi.product_id
+		`;
+
+		const params = [];
+		if (category && category !== 'All') {
+			query += ` WHERE LOWER(p.category) = LOWER($1)`;
+			params.push(category);
+		}
+
+		query += ` GROUP BY p.id ORDER BY p.id ASC;`;
+		const result = await client.query(query, params);
 		res.json(result.rows);
+		client.release();
 	} catch (err) {
-		console.error('❌ Database error:', err);
+		console.error(err);
 		res.status(500).send('Server error');
 	}
 });
