@@ -8,7 +8,7 @@ export default function ProductCard() {
 	const [selectedCategory, setSelectedCategory] = useState('');
 
 	useEffect(() => {
-		console.log('Fetching for category:', selectedCategory); // 👀 Debug
+		console.log('Fetching for category:', selectedCategory);
 		async function fetchProducts() {
 			try {
 				const url = selectedCategory

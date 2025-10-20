@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 // Create connection pool using Render's connection string
 const pool = new Pool({
-	connectionString:
-		'postgresql://root:1qyYFIopWaZB9CnC6tdYxaZV78PXgs19@dpg-d3n9ts3ipnbc73elblsg-a.oregon-postgres.render.com/ecommerce_7yed',
+	connectionString: process.env.DATABASE_URL,
 	ssl: { rejectUnauthorized: false },
 });
 
