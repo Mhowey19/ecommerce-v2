@@ -49,21 +49,9 @@ app.get('/products/api', async (req, res) => {
 		`;
 
 		const params = [];
-		if (category && category !== 'All') {
+		if (category && category.toLowerCase() !== 'all') {
 			query += ` WHERE LOWER(p.category) = LOWER($1)`;
 			params.push(category);
-		} else {
-			query = `
-			SELECT 
-				p.id, 
-				p.name, 
-				p.price, 
-				p.description, 
-				p.category,
-				json_agg(pi.img_path) AS images
-			FROM products p
-			LEFT JOIN product_images pi ON p.id = pi.product_id
-		`;
 		}
 
 		query += ` GROUP BY p.id ORDER BY p.id ASC;`;

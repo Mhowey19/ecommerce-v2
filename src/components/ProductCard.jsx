@@ -5,15 +5,16 @@ import '../styles/CategoryFilter.css';
 import '../styles/ProductCard.css';
 export default function ProductCard() {
 	const [products, setProducts] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState('');
+	const [selectedCategory, setSelectedCategory] = useState('All');
 
 	useEffect(() => {
 		console.log('Fetching for category:', selectedCategory);
 		async function fetchProducts() {
 			try {
-				const url = selectedCategory
-					? `${import.meta.env.VITE_API_URL}/products/api?category=${encodeURIComponent(selectedCategory)}`
-					: `${import.meta.env.VITE_API_URL}/products/api`;
+				const url =
+					selectedCategory && selectedCategory.toLowerCase() !== 'all'
+						? `${import.meta.env.VITE_API_URL}/products/api?category=${encodeURIComponent(selectedCategory)}`
+						: `${import.meta.env.VITE_API_URL}/products/api`;
 				const res = await fetch(url);
 				const data = await res.json();
 				setProducts(data);
