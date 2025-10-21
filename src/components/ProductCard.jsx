@@ -1,20 +1,30 @@
 import { useEffect, useState } from 'react';
 import Button from './Button';
 import CategoryFilter from './CategoryFilter';
-import '../styles/CategoryFilter.css';
 import '../styles/ProductCard.css';
+
 export default function ProductCard() {
 	const [products, setProducts] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState('All');
+	const [selectedCategory, setSelectedCategory] = useState('');
+	const [selectedPrice, setSelectedPrice] = useState('');
 
 	useEffect(() => {
-		console.log('Fetching for category:', selectedCategory);
 		async function fetchProducts() {
 			try {
-				const url =
-					selectedCategory && selectedCategory.toLowerCase() !== 'all'
-						? `${import.meta.env.VITE_API_URL}/products/api?category=${encodeURIComponent(selectedCategory)}`
-						: `${import.meta.env.VITE_API_URL}/products/api`;
+				let url = `${import.meta.env.VITE_API_URL}/products/api`;
+
+				const params = new URLSearchParams();
+				if (selectedCategory && selectedCategory !== 'All') {
+					params.append('category', selectedCategory);
+				}
+				if (selectedPrice) {
+					params.append('price', selectedPrice);
+				}
+
+				if (params.toString()) {
+					url += `?${params.toString()}`;
+				}
+
 				const res = await fetch(url);
 				const data = await res.json();
 				setProducts(data);
@@ -23,13 +33,13 @@ export default function ProductCard() {
 			}
 		}
 		fetchProducts();
-	}, [selectedCategory]);
+	}, [selectedCategory, selectedPrice]);
 
 	if (!products.length) return <p>Loading products...</p>;
 
 	return (
 		<div className="product-page">
-			<CategoryFilter onCategoryChange={setSelectedCategory} />
+			<CategoryFilter onCategoryChange={setSelectedCategory} onPriceChange={setSelectedPrice} />
 
 			<div className="product-grid">
 				{products.map((product) => (

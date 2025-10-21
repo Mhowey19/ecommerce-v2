@@ -1,7 +1,6 @@
 -- SELECT id, category, name FROM products;
 
-SELECT DISTINCT category FROM products;
-
+SELECT price from products
 
 -- Update products
 -- Set category = 'clothing'

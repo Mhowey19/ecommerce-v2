@@ -8,33 +8,27 @@ import { fileURLToPath } from 'url';
 dotenv.config();
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Postgres connection
+// PostgreSQL connection
 const pool = new Pool({
 	connectionString: process.env.DATABASE_URL,
-	ssl: {
-		rejectUnauthorized: false, // required for Render hosting
-	},
+	ssl: { rejectUnauthorized: false },
 });
 
 // Helper for dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-// app.use('/image', express.static(path.join(__dirname, 'public/image')));
 
-// ✅ Serve static files from the React build
+// Serve static files
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// ✅ API route for products (with optional category filter)
+// API route for products with category + price filtering
 app.get('/products/api', async (req, res) => {
 	try {
 		const client = await pool.connect();
-		const { category } = req.query;
-
-		console.log('🔎 Category received from frontend:', category); // <-- add this
+		const { category, price } = req.query;
 
 		let query = `
 			SELECT 
@@ -48,23 +42,45 @@ app.get('/products/api', async (req, res) => {
 			LEFT JOIN product_images pi ON p.id = pi.product_id
 		`;
 
+		const conditions = [];
 		const params = [];
-		if (category && category.toLowerCase() !== 'all') {
-			query += ` WHERE LOWER(p.category) = LOWER($1)`;
-			params.push(category);
+
+		// Category filter
+		if (category && category !== 'All') {
+			params.push(category.toLowerCase());
+			conditions.push(`LOWER(p.category) = $${params.length}`);
+		}
+
+		//price filter
+		if (price) {
+			if (price.includes('-')) {
+				const [min, max] = price.split('-').map(Number);
+				params.push(min, max);
+				conditions.push(`p.price BETWEEN $${params.length - 1} AND $${params.length}`);
+			} else if (price.endsWith('+')) {
+				const min = parseFloat(price.replace('+', ''));
+				params.push(min);
+				conditions.push(`p.price >= $${params.length}`);
+			}
+		}
+
+		// Combine filters
+		if (conditions.length > 0) {
+			query += ` WHERE ${conditions.join(' AND ')}`;
 		}
 
 		query += ` GROUP BY p.id ORDER BY p.id ASC;`;
+
 		const result = await client.query(query, params);
 		res.json(result.rows);
 		client.release();
 	} catch (err) {
-		console.error(err);
+		console.error('Server error:', err);
 		res.status(500).send('Server error');
 	}
 });
 
-// ✅ Catch-all route — handles React Router routes
+// Catch-all route for React Router
 app.use((req, res) => {
 	res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });

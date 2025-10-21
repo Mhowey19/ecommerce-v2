@@ -1,0 +1,98 @@
+/* Container */
+html {
+	background-color: bisque;
+}
+
+.container {
+	background: #fff;
+	max-width: 600px;
+	margin: 5rem auto;
+	padding: 2rem;
+	border-radius: 12px;
+	box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Form fields */
+.form-container {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.form-container section {
+	display: flex;
+	flex-direction: column;
+}
+
+label {
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+}
+
+input {
+	padding: 0.75rem 1rem;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+}
+
+input:focus {
+	border-color: #ff914d;
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(255, 145, 77, 0.3);
+}
+
+/* Button */
+.contact-button {
+	align-self: flex-start;
+	background: #ff914d;
+	color: #fff;
+	padding: 0.75rem 1.5rem;
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.contact-button:hover {
+	background: #e57b33;
+}
+
+button:active {
+	transform: scale(0.97);
+}
+
+/* Donation message */
+.product-donation {
+	margin-top: 2rem;
+	padding: 1rem;
+	border-radius: 8px;
+	background: #f1f1f1;
+	border: 1px solid #ccc;
+	font-size: 1rem;
+	font-weight: 500;
+	color: #444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.container {
+		width: 90%;
+		margin: 4rem auto;
+		padding: 1.5rem;
+	}
+}
+
+.main-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: beige;
+	color: #000000;
+	padding: 1rem;
+	width: 100%;
+	position: fixed;
+}
