@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from './Button';
 import CategoryFilter from './CategoryFilter';
 import '../styles/ProductCard.css';
+import ProductColorSwitcher from './ProductColorSwitcher';
 
 export default function ProductCard() {
 	const [products, setProducts] = useState([]);
@@ -35,33 +36,41 @@ export default function ProductCard() {
 		fetchProducts();
 	}, [selectedCategory, selectedPrice]);
 
-	if (!products.length) return <p>Loading products...</p>;
-
+	if (!products.length) {
+		return (
+			<>
+				<p>No Matching Products</p>
+				<CategoryFilter onCategoryChange={setSelectedCategory} onPriceChange={setSelectedPrice} />
+			</>
+		);
+	}
 	return (
-		<div className="product-page">
+		<>
 			<CategoryFilter onCategoryChange={setSelectedCategory} onPriceChange={setSelectedPrice} />
-
-			<div className="product-grid">
-				{products.map((product) => (
-					<div key={product.id} className="product-card">
-						<div className="product-image">
-							<img
-								src={
-									product.images?.[0] ? `/image/product/${product.images[0].split('/').pop()}` : '/image/fallback.jpg'
-								}
-								alt={product.name}
-								onError={(e) => (e.target.src = '/image/fallback.jpg')}
-							/>
+			<div className="product-page">
+				<div className="product-grid">
+					{products.map((product) => (
+						<div key={product.id} className="product-card">
+							<div className="product-image">
+								<img
+									src={
+										product.images?.[0] ? `/image/product/${product.images[0].split('/').pop()}` : '/image/fallback.jpg'
+									}
+									alt={product.name}
+									onError={(e) => (e.target.src = '/image/fallback.jpg')}
+								/>
+							</div>
+							<div className="product-info">
+								<h3>{product.name}</h3>
+								<p className="price">${parseFloat(product.price).toFixed(2)}</p>
+								<p className="description">{product.description}</p>
+								<Button />
+								<ProductColorSwitcher />
+							</div>
 						</div>
-						<div className="product-info">
-							<h3>{product.name}</h3>
-							<p className="price">${parseFloat(product.price).toFixed(2)}</p>
-							<p className="description">{product.description}</p>
-							<Button />
-						</div>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
-		</div>
+		</>
 	);
 }

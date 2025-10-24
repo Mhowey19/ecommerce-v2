@@ -46,7 +46,7 @@ html {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	height: 50vh;
+	height: 35vh;
 }
 
 .section-title {
@@ -58,6 +58,7 @@ html {
 /* Right: Contact card */
 .right-column {
 	flex: 1;
+	height: 35vh;
 	background-image: linear-gradient(rgba(76, 76, 76, 0.462)), url(../images/contact.png);
 	background-size: cover;
 	background-position: center;

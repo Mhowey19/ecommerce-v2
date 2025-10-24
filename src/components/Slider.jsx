@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Button from './Button';
+import ProductColorSwitcher from './ProductColorSwitcher';
 import '../styles/Slider.css';
-
+import { Link } from 'react-router-dom';
 export default function ProductSlider() {
 	const [products, setProducts] = useState([]);
-	const [currentImageIndex, setCurrentImageIndex] = useState({});
 	const [currentSlide, setCurrentSlide] = useState(0);
+	const [isPaused, setIsPaused] = useState(false);
+	const intervalRef = useRef(null);
 
 	// Fetch products from backend
 	useEffect(() => {
@@ -19,64 +21,58 @@ export default function ProductSlider() {
 			}
 		}
 		fetchProducts();
-	}, []); // run only once on mount
+	}, []);
 
-	// Slider navigation
+	// Auto-slide effect
+	useEffect(() => {
+		if (isPaused || products.length === 0) return;
+
+		intervalRef.current = setInterval(() => {
+			setCurrentSlide((prev) => (prev + 1) % products.length);
+		}, 5000); // ⏱️ change slide every 5 seconds
+
+		return () => clearInterval(intervalRef.current);
+	}, [products, isPaused]);
+
 	const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % products.length);
 	const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + products.length) % products.length);
-
-	// Image cycling per product
-	const handleNextImage = (productId) => {
-		setCurrentImageIndex((prev) => {
-			const current = prev[productId] || 0;
-			const product = products.find((p) => p.id === productId);
-			const next = (current + 1) % (product?.images?.length || 1);
-			return { ...prev, [productId]: next };
-		});
-	};
 
 	if (!products.length) return <p>Loading products...</p>;
 
 	return (
-		<div className="slider-container">
+		<div className="slider-container" onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
 			<button className="slider-btn prev" onClick={prevSlide}>
-				Prev
+				‹
 			</button>
 
-			<div className="slider-wrapper" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-				{products.map((product) => {
-					const currentIdx = currentImageIndex[product.id] || 0;
-					const imagePath = product.images?.[currentIdx]
-						? `${import.meta.env.VITE_API_URL}/image/product/${product.images[currentIdx].split('/').pop()}`
-						: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`;
-
-					return (
-						<div className="slide" key={product.id}>
-							<div className="slide-content">
-								{/* Left: Product Image */}
-								<img
-									src={imagePath}
-									alt={product.name}
-									width="300"
-									onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
-								/>
-
-								{/* Right: Product Info */}
-								<div className="slide-info">
-									<h3>{product.name}</h3>
-									<p>${parseFloat(product.price).toFixed(2)}</p>
-									<p>{product.description}</p>
-									<Button />
-									<button onClick={() => handleNextImage(product.id)}>Next Image</button>
-								</div>
-							</div>
+			<div className="slider-wrapper">
+				{products.map((product, index) => (
+					<div
+						key={product.id}
+						className={`slide ${index === currentSlide ? 'active' : ''}`}
+						style={{ display: index === currentSlide ? 'flex' : 'none' }}
+					>
+						{/* Left: Product Image + Color Switcher */}
+						<div className="slide-image">
+							<ProductColorSwitcher product={product} />
 						</div>
-					);
-				})}
+
+						{/* Right: Product Info */}
+
+						<div className="slide-info">
+							<Link to="/products">
+								<h3>{product.name}</h3>
+								<p className="price">${parseFloat(product.price).toFixed(2)}</p>
+								<p className="description">{product.description}</p>
+							</Link>
+							<Button />
+						</div>
+					</div>
+				))}
 			</div>
 
 			<button className="slider-btn next" onClick={nextSlide}>
-				Next
+				›
 			</button>
 		</div>
 	);

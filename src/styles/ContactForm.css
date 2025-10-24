@@ -85,14 +85,3 @@ button:active {
 		padding: 1.5rem;
 	}
 }
-
-.main-footer {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: beige;
-	color: #000000;
-	padding: 1rem;
-	width: 100%;
-	position: fixed;
-}
