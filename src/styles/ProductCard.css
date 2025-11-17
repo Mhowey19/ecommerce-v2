@@ -1,18 +1,109 @@
-/* --- Page Layout --- */
+/* --- Category Filter Layout --- */
+.category-filter {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-end;
+	gap: 1.5rem;
+	padding: 1rem 1.5rem;
+	background: #fff;
+	border-radius: 16px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	margin-bottom: 2rem;
+	flex-wrap: wrap;
+}
+
+/* --- Filter Group --- */
+.filter-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+	min-width: 180px;
+}
+
+/* --- Labels --- */
+.filter-label {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #444;
+}
+
+/* --- Dropdowns --- */
+.filter-select {
+	padding: 0.5rem 0.75rem;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	background-color: #f9f9f9;
+	font-size: 0.95rem;
+	color: #333;
+	transition: all 0.2s ease;
+	outline: none;
+}
+
+.filter-select:hover {
+	background-color: #f1f1f1;
+	border-color: #007bff;
+}
+
+.filter-select:focus {
+	border-color: #007bff;
+	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* --- Responsive Adjustments --- */
+
+/* Mobile (phones) */
+@media (max-width: 700px) {
+	.category-filter {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1rem;
+		padding: 1rem;
+	}
+
+	.filter-group {
+		width: 100%;
+	}
+}
+
+/* Tablet (portrait + landscape) */
+@media (min-width: 701px) and (max-width: 1024px) {
+	.category-filter {
+		justify-content: space-between;
+		flex-wrap: wrap;
+		padding: 1rem 2rem;
+		gap: 1.2rem;
+	}
+
+	.filter-group {
+		flex: 1 1 45%;
+		min-width: 240px;
+	}
+}
+
+/* Laptop and desktop */
+@media (min-width: 1025px) {
+	.category-filter {
+		justify-content: center;
+		align-items: flex-end;
+		gap: 1.5rem;
+	}
+}
+
+/* --- Product Page Layout --- */
 .product-page {
 	padding: 2rem;
 	max-width: 1300px;
 	margin: 0 auto;
 }
 
-/* --- Grid --- */
+/* --- Product Grid --- */
 .product-grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 	gap: 2rem;
 }
 
-/* --- Horizontal Product Card --- */
+/* --- Product Card --- */
 .product-card {
 	display: flex;
 	align-items: center;
@@ -71,7 +162,7 @@
 	margin-bottom: 1rem;
 }
 
-/* --- Button --- */
+/* --- Buttons --- */
 .product-info button {
 	padding: 0.6rem 1.2rem;
 	border-radius: 8px;
@@ -85,20 +176,71 @@
 	background-color: #007bff;
 }
 
+/* --- Actions Row --- */
+.product-actions {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 0.5rem;
+}
+
+/* Color switcher beside Add to Cart */
+.product-actions .color-switcher {
+	flex-direction: row;
+	gap: 0.5rem;
+}
+
+.product-actions .color-switcher img {
+	display: none;
+}
+
+.product-actions .color-switcher button {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: 2px solid #ddd;
+	cursor: pointer;
+	transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.product-actions .color-switcher button:hover {
+	transform: scale(1.1);
+	border-color: #007bff;
+}
+
+.product-actions .color-switcher button.active {
+	border-color: #222;
+}
+
 /* --- Responsive Adjustments --- */
+
+/* Mobile: stack cards vertically */
 @media (max-width: 700px) {
 	.product-card {
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-	}
-
-	.product-image {
-		flex: none;
+		padding: 1rem;
 	}
 
 	.product-image img {
 		width: 100%;
 		max-width: 280px;
+	}
+}
+
+/* Tablet: tighter layout */
+@media (min-width: 701px) and (max-width: 1024px) {
+	.product-grid {
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	}
+
+	.product-card {
+		gap: 1rem;
+	}
+
+	.product-image img {
+		width: 150px;
+		height: 150px;
 	}
 }

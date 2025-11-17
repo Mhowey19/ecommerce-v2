@@ -44,6 +44,7 @@ export default function ProductCard() {
 			</>
 		);
 	}
+
 	return (
 		<>
 			<CategoryFilter onCategoryChange={setSelectedCategory} onPriceChange={setSelectedPrice} />
@@ -51,24 +52,49 @@ export default function ProductCard() {
 				<div className="product-grid">
 					{products.map((product) => (
 						<div key={product.id} className="product-card">
-							<div className="product-image">
-								<img
-									src={
-										product.images?.[0] ? `/image/product/${product.images[0].split('/').pop()}` : '/image/fallback.jpg'
-									}
-									alt={product.name}
-									onError={(e) => (e.target.src = '/image/fallback.jpg')}
-								/>
-							</div>
-							<div className="product-info">
-								<h3>{product.name}</h3>
-								<p className="price">${parseFloat(product.price).toFixed(2)}</p>
-								<p className="description">{product.description}</p>
-								<Button />
-								<ProductColorSwitcher />
-							</div>
+							<ProductCardItem product={product} />
 						</div>
 					))}
+				</div>
+			</div>
+		</>
+	);
+}
+
+/* --- Subcomponent for single product --- */
+function ProductCardItem({ product }) {
+	const images = Array.isArray(product.images) ? product.images : product.image ? [product.image] : [];
+	const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+	const handleImageChange = (index) => {
+		setCurrentImageIndex(index);
+	};
+
+	return (
+		<>
+			<div className="product-image">
+				<img
+					src={
+						images[currentImageIndex]
+							? `${import.meta.env.VITE_API_URL}/image/product/${images[currentImageIndex].split('/').pop()}`
+							: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
+					}
+					alt={product.name}
+					onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
+				/>
+			</div>
+			<div className="product-info">
+				<h3>{product.name}</h3>
+				<p className="price">${parseFloat(product.price).toFixed(2)}</p>
+				<p className="description">{product.description}</p>
+				<div className="product-actions">
+					<Button />
+					<ProductColorSwitcher
+						product={product}
+						onImageSelect={handleImageChange}
+						currentImageIndex={currentImageIndex}
+						compact
+					/>
 				</div>
 			</div>
 		</>

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import '../styles/CategoryFilter.css';
-
+import { useState } from 'react';
+import '../styles/ProductCard.css';
 export default function CategoryFilter({ onCategoryChange, onPriceChange }) {
 	const [categories] = useState(['All', 'Shoes', 'Clothing', 'Supplies', 'Seats']);
 	const [price, setPrice] = useState('');
@@ -11,17 +10,13 @@ export default function CategoryFilter({ onCategoryChange, onPriceChange }) {
 	};
 
 	return (
-		<div className="flex flex-col gap-4 p-4 bg-gray-50 rounded-xl w-64 shadow-sm">
+		<div className="category-filter">
 			{/* Category Dropdown */}
-			<div>
-				<label htmlFor="category" className="text-sm font-semibold text-gray-600">
+			<div className="filter-group">
+				<label htmlFor="category" className="filter-label">
 					Filter by Category
 				</label>
-				<select
-					id="category"
-					onChange={(e) => onCategoryChange(e.target.value)}
-					className="border border-gray-300 rounded-lg p-2 text-gray-700 w-full"
-				>
+				<select id="category" onChange={(e) => onCategoryChange(e.target.value)} className="filter-select">
 					{categories.map((cat) => (
 						<option key={cat} value={cat}>
 							{cat}
@@ -31,16 +26,11 @@ export default function CategoryFilter({ onCategoryChange, onPriceChange }) {
 			</div>
 
 			{/* Price Dropdown */}
-			<div>
-				<label htmlFor="price" className="text-sm font-semibold text-gray-600">
+			<div className="filter-group">
+				<label htmlFor="price" className="filter-label">
 					Filter by Price
 				</label>
-				<select
-					id="price"
-					value={price}
-					onChange={handlePriceChange}
-					className="border border-gray-300 rounded-lg p-2 text-gray-700 w-full"
-				>
+				<select id="price" value={price} onChange={handlePriceChange} className="filter-select">
 					<option value="">All Prices</option>
 					<option value="0-25">$0 - $25</option>
 					<option value="25-50">$25 - $50</option>

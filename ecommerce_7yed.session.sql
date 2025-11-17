@@ -1,6 +1,6 @@
 -- SELECT id, category, name FROM products;
 
-SELECT price from products
+SELECT * from product_images
 
 -- Update products
 -- Set category = 'clothing'
