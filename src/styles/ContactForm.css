@@ -3,6 +3,78 @@ html {
 	background-color: bisque;
 }
 
+.donation-drive {
+	width: 100%;
+	max-width: 1100px;
+	margin: 2rem auto;
+	padding: 2rem;
+	background: #ffffff;
+	border-radius: 16px;
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+	text-align: center;
+}
+
+.donation-title {
+	font-size: 2rem;
+	color: #222;
+	margin-bottom: 0.5rem;
+	font-weight: 700;
+}
+
+.donation-text {
+	font-size: 1.1rem;
+	color: #555;
+	margin-bottom: 1.5rem;
+}
+
+.donation-items {
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+	flex-wrap: wrap;
+}
+
+.donation-card {
+	background: #f9f9f9;
+	padding: 1.2rem 1.5rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+	width: 300px;
+	transition: transform 0.2s ease;
+}
+
+.donation-card:hover {
+	transform: translateY(-4px);
+}
+
+.donation-card h3 {
+	font-size: 1.3rem;
+	margin-bottom: 0.5rem;
+	color: black;
+}
+
+.donation-card p {
+	font-size: 0.95rem;
+	color: #444;
+}
+
+.donation-footer {
+	margin-top: 2rem;
+	font-size: 1rem;
+	color: #666;
+}
+
+/* Mobile (max 400px) */
+@media (max-width: 400px) {
+	.donation-drive {
+		padding: 1.5rem 1rem;
+	}
+
+	.donation-card {
+		width: 100%;
+	}
+}
+
 .container {
 	background: #fff;
 	max-width: 600px;

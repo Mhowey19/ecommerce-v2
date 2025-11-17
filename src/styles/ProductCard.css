@@ -66,7 +66,7 @@
 }
 
 /* Tablet (portrait + landscape) */
-@media (min-width: 701px) and (max-width: 1024px) {
+@media (min-width: 701px) {
 	.category-filter {
 		justify-content: space-between;
 		flex-wrap: wrap;
@@ -77,15 +77,6 @@
 	.filter-group {
 		flex: 1 1 45%;
 		min-width: 240px;
-	}
-}
-
-/* Laptop and desktop */
-@media (min-width: 1025px) {
-	.category-filter {
-		justify-content: center;
-		align-items: flex-end;
-		gap: 1.5rem;
 	}
 }
 
@@ -163,7 +154,7 @@
 }
 
 /* --- Buttons --- */
-.product-info button {
+.product-info-button {
 	padding: 0.6rem 1.2rem;
 	border-radius: 8px;
 	font-size: 0.95rem;
@@ -172,8 +163,8 @@
 	transition: background 0.2s ease;
 }
 
-.product-info button:hover {
-	background-color: #007bff;
+.main-button:hover {
+	background: #e57b33 !important;
 }
 
 /* --- Actions Row --- */
@@ -194,7 +185,7 @@
 	display: none;
 }
 
-.product-actions .color-switcher button {
+.choice-button {
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -203,12 +194,12 @@
 	transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
-.product-actions .color-switcher button:hover {
+.choice-button:hover {
 	transform: scale(1.1);
 	border-color: #007bff;
 }
 
-.product-actions .color-switcher button.active {
+.choice-button.active {
 	border-color: #222;
 }
 
@@ -242,5 +233,56 @@
 	.product-image img {
 		width: 150px;
 		height: 150px;
+	}
+}
+
+/* --------------------------------------- */
+/* ----------- 320px Breakpoint ---------- */
+/* --------------------------------------- */
+
+@media (max-width: 320px) {
+	.category-filter {
+		padding: 0.5rem;
+		gap: 0.7rem;
+	}
+
+	.filter-group {
+		min-width: 100%;
+	}
+
+	.filter-select {
+		font-size: 0.8rem;
+		padding: 0.45rem;
+	}
+
+	.product-grid {
+		grid-template-columns: 1fr; /* Prevent overflow */
+	}
+
+	.product-card {
+		padding: 0.75rem;
+		gap: 0.8rem;
+	}
+
+	.product-image img {
+		width: 100%;
+		max-width: 220px;
+	}
+
+	.product-info h3 {
+		font-size: 1.1rem;
+	}
+
+	.product-info .price {
+		font-size: 1rem;
+	}
+
+	.product-info .description {
+		font-size: 0.85rem;
+	}
+
+	.choice-button {
+		width: 32px;
+		height: 32px;
 	}
 }

@@ -1,3 +1,4 @@
+import DonationDrive from './DonationDrive';
 import { useState } from 'react';
 import '../styles/ContactForm.css';
 
@@ -43,6 +44,7 @@ export default function ContactForm() {
 
 	return (
 		<div className="contact-page">
+			<DonationDrive />
 			<main className="container">
 				<form className="form-container" onSubmit={handleSubmit}>
 					<section>

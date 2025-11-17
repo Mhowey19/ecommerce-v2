@@ -16,21 +16,18 @@ export default function ProductColorSwitcher({ product, onImageSelect, currentIm
 							: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
 					}
 					alt={product.name || 'Product'}
-					className="w-64 h-64 object-cover rounded-xl shadow-md border"
 					onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
 				/>
 			)}
 
 			{/* Color dots / image thumbnails */}
 			{images.length > 1 && (
-				<div className="flex gap-2 mt-2">
+				<div className="product-choice-container">
 					{images.map((img, index) => (
 						<button
+							className="choice-button"
 							key={index}
 							onClick={() => onImageSelect?.(index)}
-							className={`w-6 h-6 rounded-full border-2 ${
-								currentImageIndex === index ? 'border-black scale-110' : 'border-gray-300'
-							} transition-transform`}
 							style={{
 								backgroundImage: `url(${import.meta.env.VITE_API_URL}/image/product/${img.split('/').pop()})`,
 								backgroundSize: 'cover',

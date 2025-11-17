@@ -8,10 +8,12 @@ export default function Header() {
 
 	return (
 		<header className="main-header">
-			<div className="nav-left">
-				<img src={logo} alt="Tiny Joy Logo" className="nav-logo" />
-				<h1 className="nav-text">Tiny Joy</h1>
-			</div>
+			<a href="/">
+				<div className="nav-left">
+					<img src={logo} alt="Tiny Joy Logo" className="nav-logo" />
+					<h1 className="nav-text">Tiny Joy</h1>
+				</div>
+			</a>
 
 			<img src="../public/image/menu.png" alt="Menu" className="menu-icon" onClick={() => setMenuOpen(!menuOpen)} />
 

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import ProductSlider from '../components/Slider';
 import '../styles/Home.css';
+import Button from '../components/Button';
 
 export default function Home() {
 	return (
@@ -8,6 +9,9 @@ export default function Home() {
 			{/* Full-width CTA section */}
 			<div className="cta">
 				<p className="cta-text">Join Our Donation Drive</p>
+				<Link to="/contact">
+					<Button fontSize={24} text="Join" alignSelf="center" />
+				</Link>
 			</div>
 
 			{/* Two-column section below CTA */}
