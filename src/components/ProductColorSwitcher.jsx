@@ -1,11 +1,7 @@
 export default function ProductColorSwitcher({ product, onImageSelect, currentImageIndex = 0, compact = false }) {
 	if (!product) return null;
 
-	const images = Array.isArray(product.images)
-		? product.images.map((img) => img.img_path) // grab the API path directly
-		: product.image
-		? [product.image]
-		: [];
+	const images = Array.isArray(product.images) ? product.images : product.image ? [product.image] : [];
 
 	return (
 		<div className={`color-switcher flex ${compact ? 'flex-row' : 'flex-col'} items-center gap-2`}>
@@ -13,7 +9,7 @@ export default function ProductColorSwitcher({ product, onImageSelect, currentIm
 				<img
 					src={
 						images[currentImageIndex]
-							? `${import.meta.env.VITE_API_URL}/${images[currentImageIndex]}`
+							? `${import.meta.env.VITE_API_URL}/image/product/${images[currentImageIndex].split('/').pop()}`
 							: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
 					}
 					alt={product.name || 'Product'}
@@ -21,19 +17,20 @@ export default function ProductColorSwitcher({ product, onImageSelect, currentIm
 				/>
 			)}
 
+			{/* Color dots / image thumbnails */}
 			{images.length > 1 && (
 				<div className="product-choice-container">
 					{images.map((img, index) => (
 						<button
-							key={index}
 							className="choice-button"
+							key={index}
 							onClick={() => onImageSelect?.(index)}
 							style={{
-								backgroundImage: `url(${import.meta.env.VITE_API_URL}/${img})`,
+								backgroundImage: `url(${import.meta.env.VITE_API_URL}/image/product/${img.split('/').pop()})`,
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 							}}
-						/>
+						></button>
 					))}
 				</div>
 			)}

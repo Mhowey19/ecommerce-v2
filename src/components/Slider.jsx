@@ -59,7 +59,9 @@ export default function ProductSlider() {
 				{products.map((product, index) => {
 					const images = product.images || [];
 					const currentImageIndex = selectedImages[product.id] ?? 0;
-
+					{
+						console.log();
+					}
 					return (
 						<div
 							key={product.id}
@@ -71,7 +73,7 @@ export default function ProductSlider() {
 								<img
 									src={
 										images[currentImageIndex]
-											? `${import.meta.env.VITE_API_URL}/image/product/${images[currentImageIndex].split('/').pop()}`
+											? `${import.meta.env.VITE_API_URL}/image/product/${images[currentImageIndex]}`
 											: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
 									}
 									alt={product.name}
