@@ -7,7 +7,7 @@ export default function ProductColorSwitcher({ product, onImageSelect, currentIm
 		<div className={`color-switcher flex ${compact ? 'flex-row' : 'flex-col'} items-center gap-2`}>
 			{!compact && (
 				<img
-					src={images[currentImageIndex]`${base}/image/product/${images[currentImageIndex].split('/').pop()}`}
+					src={`${base}${images[currentImageIndex].split('/').pop()}`}
 					alt={product.name || 'Product'}
 					onError={(e) => (e.target.src = `${base}/image/fallback.jpg`)}
 				/>
