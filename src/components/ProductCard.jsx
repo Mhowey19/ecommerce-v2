@@ -76,7 +76,7 @@ function ProductCardItem({ product }) {
 				<img
 					src={
 						images[currentImageIndex]
-							? `${import.meta.env.VITE_API_URL}/image/product/${images[currentImageIndex].split('/').pop()}`
+							? `${import.meta.env.VITE_API_URL}/${images[currentImageIndex]}`
 							: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
 					}
 					alt={product.name}

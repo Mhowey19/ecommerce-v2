@@ -26,7 +26,7 @@ export default function ProductColorSwitcher({ product, onImageSelect, currentIm
 							key={index}
 							onClick={() => onImageSelect?.(index)}
 							style={{
-								backgroundImage: `url(${import.meta.env.VITE_API_URL}/image/product/${img.split('/').pop()})`,
+								backgroundImage: `url(${import.meta.env.VITE_API_URL}/${img})`,
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 							}}
