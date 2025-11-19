@@ -1,16 +1,94 @@
-# React + Vite
+# ecommerce-v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack e-commerce platform focused on delivering **affordable children’s products**, built with **React.js**, **Node.js**, and **PostgreSQL**, and deployed on **Render**.  
+This application helps parents access budget-friendly goods while also highlighting **community donation drives** to support families in need.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+### 🛒 Core E-commerce
+- Browse affordable children’s products
+  
+### 👨‍👩‍👦 Family-Focused Features
+- Curated categories for children’s essentials
+- Budget-friendly catalog
+- Built-in donation drive announcements
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 📦 Admin Tools
+- Create, update, delete products
+- Manage users & orders
+- Publish donation drives
 
-## Expanding the ESLint configuration
+### 📱 Responsive UI
+- Fully mobile-friendly
+- Clean React component structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+### Frontend
+- React.js  
+- React Hooks  
+
+### Backend
+- Node.js  
+- Express.js  
+
+### Database
+- PostgreSQL  
+- Render PostgreSQL instance  
+
+### Deployment
+- Render Web Service (Frontend)
+- Render Web Service (Backend)
+- Render PostgreSQL Database
+
+---
+
+## Architecture
+
+- The React frontend communicates with the backend API.
+- The backend handles auth, product management, cart logic, and orders.
+- PostgreSQL stores all application data.
+
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v18+ recommended)
+- npm or yarn
+- PostgreSQL (local or cloud)
+- Git
+
+---
+
+### Installation
+
+1. Clone the repository:
+git clone https://github.com/Mhowey19/ecommerce-v2.git
+cd ecommerce-v2
+
+Install backend dependencies:
+
+cd backend
+npm install
+
+
+Install frontend dependencies:
+
+cd ../frontend
+npm install
+
+
+Usage
+Start Backend
+cd backend
+npm run dev
+
+Start Frontend
+cd frontend
+npm run dev
