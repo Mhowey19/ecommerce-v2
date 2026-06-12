@@ -87,7 +87,15 @@ npm install
 Usage
 Run the app locally:
 
+# In one terminal, start the frontend
+
 npm run dev
+
+# In another terminal, start the backend
+
+node server.js
+
+If you want both at once, keep both processes running while you test signup/login.
 
 ---
 
