@@ -92,3 +92,28 @@ npm run dev
 Start Frontend
 cd frontend
 npm run dev
+
+---
+
+## Deploying to Vercel
+
+This repository builds a static frontend (`vite build` → `dist`). To deploy the frontend on Vercel:
+
+1. In the Vercel dashboard, create a new project and point it to this repository.
+2. Set the Build Command to `npm run build` and the Output Directory to `dist` (the included `vercel.json` already configures this).
+3. Add an environment variable `VITE_API_URL` with the public URL of your backend API (e.g. `https://your-backend.example.com`).
+	- If you do not have a separate backend deployed, this app's API runs in `server.js` and must be deployed separately (Render, Heroku, etc.).
+4. Deploy — Vercel will run the build and publish the static site.
+
+Notes:
+- This repository includes an Express `server.js` used for local development. Vercel will serve the frontend statically; to deploy the backend you should host `server.js` on a Node-compatible host and set `VITE_API_URL` accordingly.
+- If you want to migrate the backend into Vercel Serverless Functions, the API routes in `server.js` must be converted into `/api/*.js` functions under the `api/` directory.
+
+Local build & preview
+
+```bash
+npm install
+npm run build
+npm run preview
+```
+
