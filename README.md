@@ -138,9 +138,8 @@ web: npm run start:prod
 ```
 
 4. Railway will use `postinstall` to run `npm run build`, so the frontend is built before the server starts.
-5. Set the environment variables in Railway:
+5. Set the environment variable:
    - `DATABASE_URL` = your PostgreSQL connection string
-   - If Railway provides the DB secret as `RAILWAY_DATABASE_URL`, that is also supported.
    - Do not set `VITE_API_URL` if the frontend and backend are hosted together on Railway. The app uses same-origin API requests by default.
 6. Deploy the service.
 
