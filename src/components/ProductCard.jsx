@@ -94,9 +94,7 @@ function ProductCardItem({ product }) {
               : `${apiUrl}/image/fallback.jpg`
           }
           alt={product.name}
-          onError={(e) =>
-            (e.target.src = `${apiUrl}/image/fallback.jpg`)
-          }
+          onError={(e) => (e.target.src = `${apiUrl}/image/fallback.jpg`)}
         />
       </div>
       <div className="product-info">
@@ -114,20 +112,17 @@ function ProductCardItem({ product }) {
               }
 
               try {
-                const res = await fetch(
-                  `${apiUrl}/api/cart`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({
-                      productId: product.id,
-                      quantity: 1,
-                    }),
+                const res = await fetch(`${apiUrl}/api/cart`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
                   },
-                );
+                  body: JSON.stringify({
+                    productId: product.id,
+                    quantity: 1,
+                  }),
+                });
 
                 if (!res.ok) {
                   const data = await res.json();

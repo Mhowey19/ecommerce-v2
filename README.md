@@ -8,19 +8,23 @@ This application helps parents access budget-friendly goods while also highlight
 ## Features
 
 ### 🛒 Core E-commerce
+
 - Browse affordable children’s products
-  
+
 ### 👨‍👩‍👦 Family-Focused Features
+
 - Curated categories for children’s essentials
 - Budget-friendly catalog
 - Built-in donation drive announcements
 
 ### 📦 Admin Tools
+
 - Create, update, delete products
 - Manage users & orders
 - Publish donation drives
 
 ### 📱 Responsive UI
+
 - Fully mobile-friendly
 - Clean React component structure
 
@@ -29,18 +33,22 @@ This application helps parents access budget-friendly goods while also highlight
 ## Tech Stack
 
 ### Frontend
-- React.js  
-- React Hooks  
+
+- React.js
+- React Hooks
 
 ### Backend
-- Node.js  
-- Express.js  
+
+- Node.js
+- Express.js
 
 ### Database
-- PostgreSQL  
-- Render PostgreSQL instance  
+
+- PostgreSQL
+- Render PostgreSQL instance
 
 ### Deployment
+
 - Render Web Service (Frontend)
 - Render Web Service (Backend)
 - Render PostgreSQL Database
@@ -53,12 +61,12 @@ This application helps parents access budget-friendly goods while also highlight
 - The backend handles auth, product management, cart logic, and orders.
 - PostgreSQL stores all application data.
 
-
 ---
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v18+ recommended)
 - npm or yarn
 - PostgreSQL (local or cloud)
@@ -69,8 +77,8 @@ This application helps parents access budget-friendly goods while also highlight
 ### Installation
 
 1. Clone the repository:
-git clone https://github.com/Mhowey19/ecommerce-v2.git
-cd ecommerce-v2
+   git clone https://github.com/Mhowey19/ecommerce-v2.git
+   cd ecommerce-v2
 
 Install dependencies:
 
@@ -94,6 +102,7 @@ This repository supports Vercel static hosting with built-in serverless backend 
 4. Deploy — Vercel will publish the frontend and serve the `/api/*` routes automatically.
 
 Notes:
+
 - Vercel will serve the static frontend from `dist` and use the `api/` directory for backend routes.
 - This repository also contains `server.js` for local/manual Node hosting, but Vercel will ignore it for static deployments.
 - If using a separate backend, point `VITE_API_URL` at the deployed API.
@@ -105,4 +114,3 @@ npm install
 npm run build
 npm run preview
 ```
-

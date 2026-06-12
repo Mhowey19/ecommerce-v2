@@ -49,21 +49,23 @@ export default function ProductColorSwitcher({
             {images.map((img, index) => {
               // handle full URLs, absolute paths, and relative paths from the API
               const imageUrl = img
-                ? img.startsWith('http') || img.startsWith('/')
+                ? img.startsWith("http") || img.startsWith("/")
                   ? img
-                  : `${base}/${img.replace(/^\//, '')}`
-                : '';
+                  : `${base}/${img.replace(/^\//, "")}`
+                : "";
 
               return (
                 <button
                   key={index}
-                  className={`choice-button ${currentImageIndex === index ? 'active' : ''}`}
+                  className={`choice-button ${currentImageIndex === index ? "active" : ""}`}
                   onClick={() => onImageSelect?.(index)}
                   style={{
-                    backgroundSize: 'cover',
-                    backgroundImage: imageUrl ? `url("${imageUrl}")` : undefined,
-                    backgroundPosition: 'center',
-                    backgroundColor: imageUrl ? undefined : '#f5f5f5',
+                    backgroundSize: "cover",
+                    backgroundImage: imageUrl
+                      ? `url("${imageUrl}")`
+                      : undefined,
+                    backgroundPosition: "center",
+                    backgroundColor: imageUrl ? undefined : "#f5f5f5",
                   }}
                   aria-label={`Select image ${index + 1}`}
                 />

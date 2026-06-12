@@ -1,5 +1,5 @@
-import pool from '../db.js';
-import { getAuthPayload } from '../utils.js';
+import pool from "../db.js";
+import { getAuthPayload } from "../utils.js";
 
 export default async function handler(req, res) {
   const method = req.method;
@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     const payload = getAuthPayload(req);
     const client = await pool.connect();
     try {
-      if (method === 'GET') {
+      if (method === "GET") {
         const result = await client.query(
           `SELECT ci.product_id, ci.quantity, p.name, p.price
            FROM cart_items ci
@@ -19,40 +19,47 @@ export default async function handler(req, res) {
         return res.status(200).json({ items: result.rows });
       }
 
-      if (method === 'POST') {
+      if (method === "POST") {
         const { productId, quantity } = req.body || {};
-        if (!productId || typeof quantity !== 'number') {
-          return res.status(400).json({ message: 'productId and quantity required.' });
+        if (!productId || typeof quantity !== "number") {
+          return res
+            .status(400)
+            .json({ message: "productId and quantity required." });
         }
 
         if (quantity <= 0) {
-          await client.query('DELETE FROM cart_items WHERE user_id = $1 AND product_id = $2', [payload.id, productId]);
-          return res.status(200).json({ message: 'Item removed from cart.' });
+          await client.query(
+            "DELETE FROM cart_items WHERE user_id = $1 AND product_id = $2",
+            [payload.id, productId],
+          );
+          return res.status(200).json({ message: "Item removed from cart." });
         }
 
         const existing = await client.query(
-          'SELECT id FROM cart_items WHERE user_id = $1 AND product_id = $2',
+          "SELECT id FROM cart_items WHERE user_id = $1 AND product_id = $2",
           [payload.id, productId],
         );
         if (existing.rows.length) {
           await client.query(
-            'UPDATE cart_items SET quantity = $1 WHERE user_id = $2 AND product_id = $3',
+            "UPDATE cart_items SET quantity = $1 WHERE user_id = $2 AND product_id = $3",
             [quantity, payload.id, productId],
           );
         } else {
           await client.query(
-            'INSERT INTO cart_items (user_id, product_id, quantity) VALUES ($1, $2, $3)',
+            "INSERT INTO cart_items (user_id, product_id, quantity) VALUES ($1, $2, $3)",
             [payload.id, productId, quantity],
           );
         }
-        return res.status(200).json({ message: 'Cart updated.' });
+        return res.status(200).json({ message: "Cart updated." });
       }
 
-      return res.status(405).json({ message: 'Method not allowed.' });
+      return res.status(405).json({ message: "Method not allowed." });
     } finally {
       client.release();
     }
   } catch (err) {
-    return res.status(err.status || 401).json({ message: err.message || 'Invalid or expired token.' });
+    return res
+      .status(err.status || 401)
+      .json({ message: err.message || "Invalid or expired token." });
   }
 }
