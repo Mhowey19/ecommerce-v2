@@ -102,12 +102,14 @@ This repository builds a static frontend (`vite build` → `dist`). To deploy th
 1. In the Vercel dashboard, create a new project and point it to this repository.
 2. Set the Build Command to `npm run build` and the Output Directory to `dist` (the included `vercel.json` already configures this).
 3. Add an environment variable `VITE_API_URL` with the public URL of your backend API (e.g. `https://your-backend.example.com`).
-	- If you do not have a separate backend deployed, this app's API runs in `server.js` and must be deployed separately (Render, Heroku, etc.).
+   - If you do not have a separate backend deployed, this app's API routes will fail on Vercel because this project is configured as a static frontend build.
 4. Deploy — Vercel will run the build and publish the static site.
 
 Notes:
-- This repository includes an Express `server.js` used for local development. Vercel will serve the frontend statically; to deploy the backend you should host `server.js` on a Node-compatible host and set `VITE_API_URL` accordingly.
-- If you want to migrate the backend into Vercel Serverless Functions, the API routes in `server.js` must be converted into `/api/*.js` functions under the `api/` directory.
+- This repository includes an Express `server.js` used for local development only. Vercel will serve the frontend statically; `server.js` is not executed in this deployment.
+- The frontend needs a running backend at the `VITE_API_URL` host. If you do not deploy the backend separately, requests like `/api/login` will fail with 405 or return HTML.
+- To host the backend separately, use a Node-compatible host (Render, Heroku, Railway, etc.) and point `VITE_API_URL` to that service.
+- If you want to host both frontend and backend on Vercel, convert the server routes in `server.js` into Vercel Serverless Functions under an `api/` directory.
 
 Local build & preview
 

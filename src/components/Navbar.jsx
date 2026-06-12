@@ -87,7 +87,7 @@ export default function Header() {
       </a>
 
       <img
-        src="../public/image/menu.png"
+        src="/image/menu.png"
         alt="Menu"
         className="menu-icon"
         onClick={() => setMenuOpen(!menuOpen)}
