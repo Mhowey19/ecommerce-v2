@@ -122,3 +122,29 @@ npm install
 npm run build
 npm run preview
 ```
+
+---
+
+## Deploying to Railway as a Monorepo
+
+This repository can deploy as a single Railway service that builds the React frontend and runs the Express backend together.
+
+1. In Railway, create a new project and connect this GitHub repository.
+2. Railway will install dependencies and run `npm install`.
+3. The repository includes a `Procfile` with:
+
+```bash
+web: npm run start:prod
+```
+
+4. Railway will use `postinstall` to run `npm run build`, so the frontend is built before the server starts.
+5. Set the environment variable:
+   - `DATABASE_URL` = your PostgreSQL connection string
+   - Do not set `VITE_API_URL` if the frontend and backend are hosted together on Railway. The app uses same-origin API requests by default.
+6. Deploy the service.
+
+Notes:
+
+- `npm run start:prod` starts `node server.js`.
+- `server.js` serves the `dist` folder and API routes from the same host.
+- If you prefer a separate backend service, set `VITE_API_URL` to the backend URL.
