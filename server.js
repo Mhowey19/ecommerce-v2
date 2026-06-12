@@ -60,7 +60,7 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "dist")));
 
 // API route for products with category + price filtering
-app.get("/products/api", async (req, res) => {
+app.get("/api/products", async (req, res) => {
   try {
     const client = await pool.connect();
     const { category, price } = req.query;
