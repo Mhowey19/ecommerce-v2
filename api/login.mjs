@@ -1,8 +1,8 @@
-import pool from "./db.js";
+import pool from "./db.mjs";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { setCorsHeaders } from "./utils.js";
+import { setCorsHeaders } from "./utils.mjs";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "please_change_this_secret";
@@ -25,29 +25,29 @@ export default async function handler(req, res) {
 
   const client = await pool.connect();
   try {
-    const existing = await client.query(
-      "SELECT id FROM users WHERE email = $1",
+    const result = await client.query(
+      "SELECT id, email, password FROM users WHERE email = $1",
       [email.toLowerCase()],
     );
-    if (existing.rows.length) {
-      return res.status(409).json({ message: "Email already registered." });
+    if (!result.rows.length) {
+      return res.status(401).json({ message: "Invalid credentials." });
     }
 
-    const passwordHash = await bcrypt.hash(password, 10);
-    const result = await client.query(
-      "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING id, email",
-      [email.toLowerCase(), passwordHash],
-    );
-
     const user = result.rows[0];
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
     const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
       expiresIn: "1h",
     });
-
-    return res.status(200).json({ token, user });
+    return res
+      .status(200)
+      .json({ token, user: { id: user.id, email: user.email } });
   } catch (err) {
-    console.error("Signup error:", err);
-    return res.status(500).json({ message: "Server error during signup." });
+    console.error("Login error:", err);
+    return res.status(500).json({ message: "Server error during login." });
   } finally {
     client.release();
   }

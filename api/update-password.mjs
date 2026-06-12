@@ -1,6 +1,6 @@
-import pool from "./db.js";
+import pool from "./db.mjs";
 import bcrypt from "bcryptjs";
-import { getAuthPayload, setCorsHeaders } from "./utils.js";
+import { getAuthPayload, setCorsHeaders } from "./utils.mjs";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);

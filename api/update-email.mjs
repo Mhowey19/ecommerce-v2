@@ -1,5 +1,5 @@
-import pool from "./db.js";
-import { getAuthPayload, emailRegex, setCorsHeaders } from "./utils.js";
+import pool from "./db.mjs";
+import { getAuthPayload, emailRegex, setCorsHeaders } from "./utils.mjs";
 
 export default async function handler(req, res) {
   setCorsHeaders(res);
