@@ -1,8 +1,12 @@
 import pool from "./db.js";
 import bcrypt from "bcryptjs";
-import { getAuthPayload } from "./utils.js";
+import { getAuthPayload, setCorsHeaders } from "./utils.js";
 
 export default async function handler(req, res) {
+  setCorsHeaders(res);
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed." });
   }

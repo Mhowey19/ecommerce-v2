@@ -2,11 +2,16 @@ import pool from "./db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { setCorsHeaders } from "./utils.js";
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET || "please_change_this_secret";
 
 export default async function handler(req, res) {
+  setCorsHeaders(res);
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed." });
   }

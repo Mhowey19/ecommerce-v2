@@ -1,7 +1,11 @@
 import pool from "./db.js";
-import { getAuthPayload, emailRegex } from "./utils.js";
+import { getAuthPayload, emailRegex, setCorsHeaders } from "./utils.js";
 
 export default async function handler(req, res) {
+  setCorsHeaders(res);
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed." });
   }
@@ -28,12 +32,10 @@ export default async function handler(req, res) {
         email.toLowerCase(),
         payload.id,
       ]);
-      return res
-        .status(200)
-        .json({
-          token: null,
-          user: { id: payload.id, email: email.toLowerCase() },
-        });
+      return res.status(200).json({
+        token: null,
+        user: { id: payload.id, email: email.toLowerCase() },
+      });
     } finally {
       client.release();
     }

@@ -6,6 +6,18 @@ dotenv.config();
 export const JWT_SECRET = process.env.JWT_SECRET || "please_change_this_secret";
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export function setCorsHeaders(res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, X-Requested-With",
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+  );
+}
+
 export function getAuthPayload(req) {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {

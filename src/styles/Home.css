@@ -14,7 +14,7 @@
   align-items: center;
   background-image:
     linear-gradient(rgba(76, 76, 76, 0.462)),
-    url(C:\Users\admin\Coding-Projects\ecommerce-v2\public\image\why-are-stacking-toys-good-for-babies-the-science-behind-stacking-toys-and-their-benefits-for-babies-tiny-land.webp);
+    url("/image/why-are-stacking-toys-good-for-babies-the-science-behind-stacking-toys-and-their-benefits-for-babies-tiny-land.webp");
   background-size: cover;
   background-position: center;
   border-radius: 10px;
