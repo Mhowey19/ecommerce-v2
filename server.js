@@ -17,21 +17,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "please_change_this_secret";
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // PostgreSQL connection
-const connectionString =
-  process.env.DATABASE_URL ||
-  process.env.RAILWAY_DATABASE_URL ||
-  process.env.PG_URI ||
-  process.env.PG_URL;
-
-if (!connectionString) {
-  console.error(
-    "❌ Missing database connection string. Set DATABASE_URL or RAILWAY_DATABASE_URL.",
-  );
-  process.exit(1);
-}
-
 const pool = new Pool({
-  connectionString,
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 
