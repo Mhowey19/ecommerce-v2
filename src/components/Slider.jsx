@@ -4,6 +4,8 @@ import ProductColorSwitcher from './ProductColorSwitcher';
 import '../styles/Slider.css';
 import { Link } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL || "";
+
 export default function ProductSlider() {
 	const [products, setProducts] = useState([]);
 	const [currentSlide, setCurrentSlide] = useState(0);
@@ -17,7 +19,7 @@ export default function ProductSlider() {
 	useEffect(() => {
 		async function fetchProducts() {
 			try {
-				const res = await fetch(`${import.meta.env.VITE_API_URL}/products/api`);
+				const res = await fetch(`${apiUrl}/api/products`);
 				const data = await res.json();
 				setProducts(data);
 
@@ -71,14 +73,11 @@ export default function ProductSlider() {
 								<img
 									src={
 										images[currentImageIndex]
-											? `${import.meta.env.VITE_API_URL}/image/product/${images[currentImageIndex].split('/').pop()}`
-											: `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
-									}
-									alt={product.name}
-									onError={(e) => (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)}
-								/>
-
-								<ProductColorSwitcher
+									? `${apiUrl}/image/product/${images[currentImageIndex].split('/').pop()}`
+									: `${apiUrl}/image/fallback.jpg`
+							}
+							alt={product.name}
+							onError={(e) => (e.target.src = `${apiUrl}/image/fallback.jpg`)}
 									product={product}
 									currentImageIndex={currentImageIndex}
 									onImageSelect={(i) =>

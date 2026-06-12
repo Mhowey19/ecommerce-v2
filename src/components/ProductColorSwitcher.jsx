@@ -17,7 +17,7 @@ export default function ProductColorSwitcher({
       ? [product.color]
       : [];
 
-  const base = import.meta.env.VITE_API_URL;
+  const base = import.meta.env.VITE_API_URL || "";
 
   return (
     <div className={`color-switcher ${compact ? "compact" : "full"}`}>

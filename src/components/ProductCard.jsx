@@ -4,6 +4,8 @@ import CategoryFilter from "./CategoryFilter";
 import "../styles/ProductCard.css";
 import ProductColorSwitcher from "./ProductColorSwitcher";
 
+const apiUrl = import.meta.env.VITE_API_URL || "";
+
 export default function ProductCard() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -12,7 +14,7 @@ export default function ProductCard() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        let url = `${import.meta.env.VITE_API_URL}/products/api`;
+        let url = `${apiUrl}/api/products`;
 
         const params = new URLSearchParams();
         if (selectedCategory && selectedCategory !== "All") {
@@ -88,12 +90,12 @@ function ProductCardItem({ product }) {
         <img
           src={
             images[currentImageIndex]
-              ? `${import.meta.env.VITE_API_URL}/${images[currentImageIndex]}`
-              : `${import.meta.env.VITE_API_URL}/image/fallback.jpg`
+              ? `${apiUrl}/${images[currentImageIndex]}`
+              : `${apiUrl}/image/fallback.jpg`
           }
           alt={product.name}
           onError={(e) =>
-            (e.target.src = `${import.meta.env.VITE_API_URL}/image/fallback.jpg`)
+            (e.target.src = `${apiUrl}/image/fallback.jpg`)
           }
         />
       </div>
@@ -113,7 +115,7 @@ function ProductCardItem({ product }) {
 
               try {
                 const res = await fetch(
-                  `${import.meta.env.VITE_API_URL}/api/cart`,
+                  `${apiUrl}/api/cart`,
                   {
                     method: "POST",
                     headers: {

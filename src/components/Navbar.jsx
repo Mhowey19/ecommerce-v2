@@ -26,6 +26,7 @@ export default function Header() {
       }
     };
 
+    const apiUrl = import.meta.env.VITE_API_URL || "";
     const updateFromToken = async () => {
       const token = localStorage.getItem("jwtToken");
       if (!token) {
@@ -43,7 +44,7 @@ export default function Header() {
 
       // fetch cart count
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/cart`, {
+        const res = await fetch(`${apiUrl}/api/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) {

@@ -72,44 +72,31 @@ This application helps parents access budget-friendly goods while also highlight
 git clone https://github.com/Mhowey19/ecommerce-v2.git
 cd ecommerce-v2
 
-Install backend dependencies:
+Install dependencies:
 
-cd backend
 npm install
-
-
-Install frontend dependencies:
-
-cd ../frontend
-npm install
-
 
 Usage
-Start Backend
-cd backend
-npm run dev
+Run the app locally:
 
-Start Frontend
-cd frontend
 npm run dev
 
 ---
 
 ## Deploying to Vercel
 
-This repository builds a static frontend (`vite build` → `dist`). To deploy the frontend on Vercel:
+This repository supports Vercel static hosting with built-in serverless backend APIs.
 
 1. In the Vercel dashboard, create a new project and point it to this repository.
 2. Set the Build Command to `npm run build` and the Output Directory to `dist` (the included `vercel.json` already configures this).
-3. Add an environment variable `VITE_API_URL` with the public URL of your backend API (e.g. `https://your-backend.example.com`).
-   - If you do not have a separate backend deployed, this app's API routes will fail on Vercel because this project is configured as a static frontend build.
-4. Deploy — Vercel will run the build and publish the static site.
+3. No `VITE_API_URL` is required if you use the built-in Vercel serverless functions in `api/`.
+   - If you want to call an external API instead, set `VITE_API_URL` to that external host.
+4. Deploy — Vercel will publish the frontend and serve the `/api/*` routes automatically.
 
 Notes:
-- This repository includes an Express `server.js` used for local development only. Vercel will serve the frontend statically; `server.js` is not executed in this deployment.
-- The frontend needs a running backend at the `VITE_API_URL` host. If you do not deploy the backend separately, requests like `/api/login` will fail with 405 or return HTML.
-- To host the backend separately, use a Node-compatible host (Render, Heroku, Railway, etc.) and point `VITE_API_URL` to that service.
-- If you want to host both frontend and backend on Vercel, convert the server routes in `server.js` into Vercel Serverless Functions under an `api/` directory.
+- Vercel will serve the static frontend from `dist` and use the `api/` directory for backend routes.
+- This repository also contains `server.js` for local/manual Node hosting, but Vercel will ignore it for static deployments.
+- If using a separate backend, point `VITE_API_URL` at the deployed API.
 
 Local build & preview
 
